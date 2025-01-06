@@ -1,14 +1,31 @@
 import React from "react";
-import ImageCard from "../imageCard/imageCard";
+import PropTypes from "prop-types";
+import ImageCard from "../imageCard/ImageCard";
+import styles from "./imageGallery.module.css";
 
-const ImageGallery = () => {
+const ImageGallery = ({ images }) => {
+  console.log(images);
   return (
-    <ul>
-      <li>
-        <ImageCard />
-      </li>
+    <ul className={styles["image-gallery"]}>
+      {images.map((image) => (
+        <li key={image.id}>
+          <ImageCard image={image} />
+        </li>
+      ))}
     </ul>
   );
+};
+
+ImageGallery.propTypes = {
+  images: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      urls: PropTypes.shape({
+        small: PropTypes.string.isRequired,
+      }).isRequired,
+      alt_description: PropTypes.string,
+    })
+  ).isRequired,
 };
 
 export default ImageGallery;

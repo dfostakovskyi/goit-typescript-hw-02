@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import toast, { Toaster } from "react-hot-toast";
+import styles from "./searchBar.module.css";
+import { IoIosSearch } from "react-icons/io";
 
 function SearchBar({ onSubmit }) {
   const [inputValue, setInputValue] = useState("");
@@ -22,8 +24,10 @@ function SearchBar({ onSubmit }) {
   return (
     <header>
       <Toaster />
-      <form onSubmit={handleSubmit}>
+
+      <form className={styles["search-form"]} onSubmit={handleSubmit}>
         <input
+          className={styles["search-input"]}
           type="text"
           autoComplete="off"
           autoFocus
@@ -31,7 +35,11 @@ function SearchBar({ onSubmit }) {
           value={inputValue}
           onChange={handleChange}
         />
-        <button type="submit">Search</button>
+
+        <button className={styles["search-button"]} type="submit">
+          <IoIosSearch className={styles["search-icon"]} />{" "}
+          {/* Додаємо іконку */}
+        </button>
       </form>
     </header>
   );

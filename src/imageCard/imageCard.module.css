@@ -1,0 +1,47 @@
+.image-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-card {
+  width: 300px;
+  height: 200px;
+  perspective: 1000px;
+  overflow: hidden;
+}
+
+.image-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 2s;
+  transform-style: preserve-3d;
+}
+
+.image-card:hover .image-card-inner {
+  transform: rotateY(180deg);
+}
+
+.image-card-front,
+.image-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  cursor: pointer;
+}
+
+.image-card-front {
+  background-color: #fff;
+  z-index: 2;
+}
+
+.image-card-back {
+  background-color: #f8f8f8;
+  transform: rotateY(180deg);
+  z-index: 1;
+  padding: 10px;
+  box-sizing: border-box;
+}
