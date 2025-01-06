@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import ImageModal from "../imageModal/ImageModal";
+import ImageModal from "../imageModal/imageModal";
 import styles from "./imageCard.module.css";
 
 const ImageCard = ({ image }) => {

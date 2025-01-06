@@ -38,7 +38,7 @@ function App() {
 
   const handleSearchSubmit = (query) => {
     setSearch(query);
-    setImages([]); // Очищення попередніх результатів пошуку
+    setImages([]);
     setPage(1);
     fetchImages(query, 1);
   };
