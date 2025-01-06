@@ -1,26 +1,30 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import ImageModal from "../imageModal/imageModal";
 import styles from "./imageCard.module.css";
 
-const ImageCard = ({ image }) => {
-  const [modalIsOpen, setIsOpen] = useState(false);
-
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
-  };
-
+const ImageCard = ({
+  image,
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
+  isFlipped,
+}) => {
   return (
-    <div className={styles["image-card"]}>
+    <div
+      className={`${styles["image-card"]} ${isFlipped ? styles.flipped : ""}`}
+      tabIndex="0"
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
       <div className={styles["image-card-inner"]}>
-        <div className={styles["image-card-front"]} onClick={openModal}>
-          <img src={image.urls.small} alt={image.alt_description || "Image"} />
+        <div className={styles["image-card-front"]}>
+          <img
+            src={image.urls.small}
+            alt={image.alt_description || "Image"}
+            onClick={() => onClick(image)}
+          />
         </div>
-        <div className={styles["image-card-back"]} onClick={openModal}>
+        <div className={styles["image-card-back"]}>
           <p>
             <strong>Created at:</strong>{" "}
             {new Date(image.created_at).toLocaleDateString()}
@@ -55,11 +59,6 @@ const ImageCard = ({ image }) => {
           </p>
         </div>
       </div>
-      <ImageModal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        image={{ url: image.urls.regular, alt: image.alt_description }}
-      />
     </div>
   );
 };
@@ -73,7 +72,7 @@ ImageCard.propTypes = {
     alt_description: PropTypes.string,
     created_at: PropTypes.string.isRequired,
     updated_at: PropTypes.string.isRequired,
-    promoted_at: PropTypes.string.isRequired,
+    promoted_at: PropTypes.string,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     description: PropTypes.string,
@@ -85,6 +84,10 @@ ImageCard.propTypes = {
       location: PropTypes.string,
     }).isRequired,
   }).isRequired,
+  onClick: PropTypes.func.isRequired,
+  onMouseEnter: PropTypes.func.isRequired,
+  onMouseLeave: PropTypes.func.isRequired,
+  isFlipped: PropTypes.bool.isRequired,
 };
 
 export default ImageCard;

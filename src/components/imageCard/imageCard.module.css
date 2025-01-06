@@ -20,7 +20,7 @@
   transform-style: preserve-3d;
 }
 
-.image-card:hover .image-card-inner {
+.image-card.flipped .image-card-inner {
   transform: rotateY(180deg);
 }
 
