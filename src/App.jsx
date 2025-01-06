@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import SearchBar from "./searchBar/searchBar";
-import ImageGallery from "./imageGallery/imageGallery";
-import Loader from "./Loader/loader";
-import ErrorMessage from "./errorMessage/errorMessage";
-import LoadMoreBtn from "./loadMoreBtn/loadMoreBtn";
+import SearchBar from "./components/searchBar/searchBar";
+import ImageGallery from "./components/imageGallery/imageGallery";
+import Loader from "./components/Loader/loader";
+import ErrorMessage from "./components/errorMessage/errorMessage";
+import LoadMoreBtn from "./components/loadMoreBtn/loadMoreBtn";
 import "./App.css";
 
 function App() {
