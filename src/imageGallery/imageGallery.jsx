@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ImageCard from "../imageCard/ImageCard";
+import ImageCard from "../imageCard/imageCard";
 import styles from "./imageGallery.module.css";
 
 const ImageGallery = ({ images }) => {

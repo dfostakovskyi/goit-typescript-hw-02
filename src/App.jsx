@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import SearchBar from "./searchBar/searchBar";
-import ImageGallery from "./imageGallery/ImageGallery";
+import ImageGallery from "./imageGallery/imageGallery";
 import Loader from "./Loader/loader";
 import ErrorMessage from "./errorMessage/errorMessage";
 import LoadMoreBtn from "./loadMoreBtn/loadMoreBtn";
