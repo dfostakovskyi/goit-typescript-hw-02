@@ -2,7 +2,6 @@ import React from "react";
 import Modal from "react-modal";
 import PropTypes from "prop-types";
 import styles from "./imageModal.module.css";
-import { MdPadding } from "react-icons/md";
 
 const customStyles = {
   content: {
@@ -20,7 +19,17 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-const ImageModal = ({ isOpen, onRequestClose, image }) => {
+interface ImageModalProps {
+  isOpen: boolean;
+  onRequestClose: () => void;
+  imageData: { url: string; alt?: string | null };
+}
+
+const ImageModal: React.FC<ImageModalProps> = ({
+  isOpen,
+  onRequestClose,
+  imageData,
+}) => {
   return (
     <Modal
       isOpen={isOpen}
@@ -31,8 +40,8 @@ const ImageModal = ({ isOpen, onRequestClose, image }) => {
     >
       <div className={styles["modal-content"]}>
         <img
-          src={image.url}
-          alt={image.alt}
+          src={imageData.url}
+          alt={imageData.alt || "Image"}
           className={styles["modal-image"]}
         />
         <button onClick={onRequestClose} className={styles["close-button"]}>
@@ -46,7 +55,7 @@ const ImageModal = ({ isOpen, onRequestClose, image }) => {
 ImageModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onRequestClose: PropTypes.func.isRequired,
-  image: PropTypes.shape({
+  imageData: PropTypes.shape({
     url: PropTypes.string.isRequired,
     alt: PropTypes.string,
   }).isRequired,

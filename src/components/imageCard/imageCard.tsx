@@ -2,8 +2,38 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./imageCard.module.css";
 
-const ImageCard = ({
-  image,
+interface Image {
+  urls: {
+    small: string;
+    regular: string;
+  };
+  alt_description?: string | null;
+
+  created_at: string;
+  updated_at: string;
+  promoted_at?: string | null;
+  width: number;
+  height: number;
+  description?: string | null;
+  likes: number;
+  user: {
+    name: string;
+    twitter_username?: string | null;
+    portfolio_url?: string | null;
+    location?: string | null;
+  };
+}
+
+interface ImageCardProps {
+  imageData: Image;
+  onClick: (image: Image) => void;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+  isFlipped: boolean;
+}
+
+const ImageCard: React.FC<ImageCardProps> = ({
+  imageData,
   onClick,
   onMouseEnter,
   onMouseLeave,
@@ -12,51 +42,57 @@ const ImageCard = ({
   return (
     <div
       className={`${styles["image-card"]} ${isFlipped ? styles.flipped : ""}`}
-      tabIndex="0"
+      tabIndex={0}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
       <div className={styles["image-card-inner"]}>
         <div className={styles["image-card-front"]}>
           <img
-            src={image.urls.small}
-            alt={image.alt_description || "Image"}
-            onClick={() => onClick(image)}
+            src={imageData.urls.small}
+            alt={imageData.alt_description || "Image"}
+            onClick={() => onClick(imageData)}
           />
         </div>
         <div className={styles["image-card-back"]}>
           <p>
             <strong>Created at:</strong>{" "}
-            {new Date(image.created_at).toLocaleDateString()}
+            {new Date(imageData.created_at).toLocaleDateString()}
           </p>
           <p>
-            <strong>Dimensions:</strong> {image.width} x {image.height}
+            <strong>Dimensions:</strong> {imageData.width} x {imageData.height}
           </p>
           <p>
-            <strong>Description:</strong> {image.description}
+            <strong>Description:</strong> {imageData.description}
           </p>
           <p>
-            <strong>Likes:</strong> {image.likes}
+            <strong>Likes:</strong> {imageData.likes}
           </p>
           <p>
-            <strong>User:</strong> {image.user.name}
+            <strong>User:</strong> {imageData.user.name}
           </p>
-          <p>
-            <strong>Twitter:</strong> {image.user.twitter_username}
-          </p>
-          <p>
-            <strong>Portfolio:</strong>{" "}
-            <a
-              href={image.user.portfolio_url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {image.user.portfolio_url}
-            </a>
-          </p>
-          <p>
-            <strong>Location:</strong> {image.user.location}
-          </p>
+          {imageData.user.twitter_username && (
+            <p>
+              <strong>Twitter:</strong> {imageData.user.twitter_username}
+            </p>
+          )}
+          {imageData.user.portfolio_url && (
+            <p>
+              <strong>Portfolio:</strong>{" "}
+              <a
+                href={imageData.user.portfolio_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {imageData.user.portfolio_url}
+              </a>
+            </p>
+          )}
+          {imageData.user.location && (
+            <p>
+              <strong>Location:</strong> {imageData.user.location}
+            </p>
+          )}
         </div>
       </div>
     </div>
@@ -64,7 +100,7 @@ const ImageCard = ({
 };
 
 ImageCard.propTypes = {
-  image: PropTypes.shape({
+  imageData: PropTypes.shape({
     urls: PropTypes.shape({
       small: PropTypes.string.isRequired,
       regular: PropTypes.string.isRequired,

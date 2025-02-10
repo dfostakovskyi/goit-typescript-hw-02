@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import SearchBar from "./components/searchBar/searchBar";
 import ImageGallery from "./components/imageGallery/imageGallery";
@@ -8,15 +8,24 @@ import LoadMoreBtn from "./components/loadMoreBtn/loadMoreBtn";
 import ImageModal from "./components/imageModal/imageModal";
 import "./App.css";
 
-function App() {
-  const [search, setSearch] = useState("");
-  const [images, setImages] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [page, setPage] = useState(1);
-  const [selectedImage, setSelectedImage] = useState(null);
+interface Image {
+  id: string;
+  urls: {
+    small: string;
+    regular: string;
+  };
+  alt_description: string;
+}
 
-  const fetchImages = async (query, page) => {
+const App: React.FC = () => {
+  const [search, setSearch] = useState<string>("");
+  const [images, setImages] = useState<Image[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState<number>(1);
+  const [selectedImage, setSelectedImage] = useState<Image | null>(null);
+
+  const fetchImages = async (query: string, page: number): Promise<void> => {
     const API_KEY = "7P8sjmoH78qLA-B_FEKE24wUCCtTwpeGuMswIh54_Tw";
     const BASE_URL = "https://api.unsplash.com/search/photos";
     const params = {
@@ -29,16 +38,17 @@ function App() {
     setLoading(true);
     try {
       const response = await axios.get(BASE_URL, { params });
-      setImages((prevImages) => [...prevImages, ...response.data.results]);
+      const newImages: Image[] = response.data.results;
+      setImages((prevImages) => [...prevImages, ...newImages]);
       setError(null);
-    } catch (err) {
-      setError(err.message);
+    } catch (error: any) {
+      setError(error.message);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSearchSubmit = (query) => {
+  const handleSearchSubmit = (query: string) => {
     setSearch(query);
     setImages([]);
     setPage(1);
@@ -51,7 +61,7 @@ function App() {
     fetchImages(search, nextPage);
   };
 
-  const openModal = (image) => {
+  const openModal = (image: Image) => {
     setSelectedImage(image);
   };
 
@@ -75,14 +85,14 @@ function App() {
         <ImageModal
           isOpen={true}
           onRequestClose={closeModal}
-          image={{
+          imageData={{
             url: selectedImage.urls.regular,
-            alt: selectedImage.alt_description,
+            alt: selectedImage.alt_description || null,
           }}
         />
       )}
     </div>
   );
-}
+};
 
 export default App;

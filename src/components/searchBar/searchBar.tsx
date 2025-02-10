@@ -1,17 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import PropTypes from "prop-types";
 import toast, { Toaster } from "react-hot-toast";
 import styles from "./searchBar.module.css";
 import { IoIosSearch } from "react-icons/io";
 
-function SearchBar({ onSubmit }) {
-  const [inputValue, setInputValue] = useState("");
+interface SearchBarProps {
+  onSubmit: (query: string) => void;
+}
 
-  const handleChange = (event) => {
+const SearchBar: React.FC<SearchBarProps> = ({ onSubmit }) => {
+  const [inputValue, setInputValue] = useState<string>("");
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (inputValue.trim() === "") {
       toast.error("Please enter a search term!");
@@ -38,12 +42,11 @@ function SearchBar({ onSubmit }) {
 
         <button className={styles["search-button"]} type="submit">
           <IoIosSearch className={styles["search-icon"]} />{" "}
-          {/* Додаємо іконку */}
         </button>
       </form>
     </header>
   );
-}
+};
 
 SearchBar.propTypes = {
   onSubmit: PropTypes.func.isRequired,
