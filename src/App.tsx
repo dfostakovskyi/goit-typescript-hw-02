@@ -25,6 +25,11 @@ const App: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   const [selectedImage, setSelectedImage] = useState<Image | null>(null);
 
+  interface ApiResponse {
+    total: number;
+    total_pages: number;
+    results: Image[];
+  }
   const fetchImages = async (query: string, page: number): Promise<void> => {
     const API_KEY = "7P8sjmoH78qLA-B_FEKE24wUCCtTwpeGuMswIh54_Tw";
     const BASE_URL = "https://api.unsplash.com/search/photos";
@@ -37,7 +42,7 @@ const App: React.FC = () => {
 
     setLoading(true);
     try {
-      const response = await axios.get(BASE_URL, { params });
+      const response = await axios.get<ApiResponse>(BASE_URL, { params });
       const newImages: Image[] = response.data.results;
       setImages((prevImages) => [...prevImages, ...newImages]);
       setError(null);
